@@ -1,0 +1,13 @@
+[
+  {
+    "modid": "power_lite_DEV",
+    "name": "Power_Lite_DEV",
+    "description": "Power_Lite_DEV 1.8.9 Forge By SuChen",
+    "version": "${version}",
+    "mcversion": "${mcversion}",
+    "url": "suchen",
+    "authorList": [
+      "SuChen"
+    ]
+  }
+]

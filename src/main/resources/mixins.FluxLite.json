@@ -1,0 +1,24 @@
+{
+  "required": true,
+  "package": "today.Miscible.injection.mixins",
+  "refmap": "mixins.FluxLite.refmap.json",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+    "client.MixinMinecraft",
+    "client.MixinGui",
+    "client.MixinAbstractClientPlayer",
+    "client.MixinEntity",
+    "client.MixinEntityLivingBase",
+    "client.MixinEntityPlayer",
+    "client.MixinEntityPlayerSP",
+    "client.MixinEntityRenderer",
+    "client.MixinGuiIngame",
+    "client.MixinGuiSpectator",
+    "client.MixinNetHandlerPlayClient",
+    "client.MixinNetworkManager",
+    "client.MixinItemRenderer",
+    "client.MixinRendererLivingEntity",
+    "client.MixinRender",
+    "client.MixinGuiMainMenu"
+  ]
+}
