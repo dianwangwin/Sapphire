@@ -51,13 +51,13 @@ public class NameTag2D extends Mod {
 	private Character formatChar = new Character('\247');
 	public static Map<EntityLivingBase, double[]> entityPositions = new HashMap();
 
-	public Value<Boolean> Health = new Value("NameTag2D_Health", true);
-	public Value<Boolean> Armor = new Value("NameTag2D_Armor", true);
-	public Value<Boolean> Antibot = new Value("NameTag2D_Antibot", false);
-	public Value<Boolean> Effect = new Value("NameTag2D_PotEffect", false);
-	public Value<Boolean> distance = new Value("NameTag2D_Distance", false);
-	public Value<Boolean> invis = new Value("NameTag2D_Invisibles", true);
-	public Value<Boolean> random = new Value("NameTag2D_Random", false);
+	public Value<Boolean> Health = new Value("NameTag2D","Health", true);
+	public Value<Boolean> Armor = new Value("NameTag2D","Armor", true);
+	public Value<Boolean> Antibot = new Value("NameTag2D","Antibot", false);
+	public Value<Boolean> Effect = new Value("NameTag2D","PotEffect", false);
+	public Value<Boolean> distance = new Value("NameTag2D","Distance", false);
+	public Value<Boolean> invis = new Value("NameTag2D","Invisibles", true);
+	public Value<Boolean> random = new Value("NameTag2D","Random", false);
 
 	public NameTag2D() {
 		super("NameTag2D", Category.Render);

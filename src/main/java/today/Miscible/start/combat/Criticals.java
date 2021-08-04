@@ -12,7 +12,7 @@ import today.Miscible.utils.timeUtils.TimeHelper;
 
 public class Criticals extends Mod {
 	public Value mode = new Value("Criticals", "Mode", 0);
-	public Value delay = new Value("Criticals_Delay", Double.valueOf(200.0D), Double.valueOf(0.0D),
+	public Value delay = new Value("Criticals","Delay", Double.valueOf(200.0D), Double.valueOf(0.0D),
 			Double.valueOf(1000.0D), 10.0D);
 	public TimeHelper timer = new TimeHelper();
 	public int crittimes = 0;

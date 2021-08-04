@@ -62,18 +62,18 @@ public class Killaura extends Mod {
 	public Killaura() {
 		super("Killaura", Category.Combat);
 		mode = new Value("Killaura", "mode", 0);
-		MaxSpeed = new Value("Killaura_MaxCps", 12.0, 1.0, 20.0, 1.0);
-		MinSpeed = new Value("Killaura_MinCps", 8.0, 1.0, 20.0, 1.0);
-		hurtTime = new Value("Killaura_HurtTime", 10, 0, 10, 1);
-		blockRange = new Value("Killaura_BlockRange", 4.8, 1.0, 12.0, 0.1);
-		range = new Value("Killaura_Range", 4.2, 1.0, 7.0, 0.1);
-		players = new Value("Killaura_Players", true);
-		Teams = new Value("Killaura_Teams", true);
-		animals = new Value("Killaura_Animals", false);
-		mobs = new Value("Killaura_Mobs", false);
-		autoblock = new Value("Killaura_AutoBlock", true);
-		invisibles = new Value("Killaura_Invisibles", false);
-		blockRayTrace = new Value("Killaura_blockRayTrace", true);
+		MaxSpeed = new Value("Killaura" , "MaxCps", 12.0, 1.0, 20.0, 1.0);
+		MinSpeed = new Value("Killaura","MinCps", 8.0, 1.0, 20.0, 1.0);
+		hurtTime = new Value("Killaura","HurtTime", 10, 0, 10, 1);
+		blockRange = new Value("Killaura","BlockRange", 4.8, 1.0, 12.0, 0.1);
+		range = new Value("Killaura","Range", 4.2, 1.0, 7.0, 0.1);
+		players = new Value("Killaura","Players", true);
+		Teams = new Value("Killaura","Teams", true);
+		animals = new Value("Killaura","Animals", false);
+		mobs = new Value("Killaura","Mobs", false);
+		autoblock = new Value("Killaura","AutoBlock", true);
+		invisibles = new Value("Killaura","Invisibles", false);
+		blockRayTrace = new Value("Killaura","blockRayTrace", true);
 		mode.addValue("Switch");
 		mode.addValue("Single");
 	}
@@ -109,7 +109,7 @@ public class Killaura extends Mod {
 			blockTarget = null;
 			target = null;
 			this.targets.clear();
-			if (this.blockingStatus) {
+			if (blockingStatus) {
 				stopBlocking();
 			}
 		}
@@ -119,7 +119,7 @@ public class Killaura extends Mod {
 	private void doAttack() {
 		if (blockTarget != null && mc.thePlayer.getDistanceToEntity(blockTarget) <= blockRange.getValueState()) {
 			if (this.timer
-					.isDelayComplete(1000 / this.randomNumber(MaxSpeed.getValueState(), MinSpeed.getValueState()))) {
+					.isDelayComplete(1000 / randomNumber(MaxSpeed.getValueState(), MinSpeed.getValueState()))) {
 				timer.reset();
 
 				if ((mc.thePlayer.isBlocking() || blockingStatus) && isHoldingSword()) {
@@ -148,8 +148,8 @@ public class Killaura extends Mod {
 	 */
 	private void startBlocking(final boolean always) {
 		if (this.isHoldingSword() && (!blockingStatus || always)) {
-			this.mc.getNetHandler()
-					.addToSendQueue(new C08PacketPlayerBlockPlacement(this.mc.thePlayer.inventory.getCurrentItem()));
+			mc.getNetHandler()
+					.addToSendQueue(new C08PacketPlayerBlockPlacement(mc.thePlayer.inventory.getCurrentItem()));
 			blockingStatus = true;
 		}
 
@@ -160,7 +160,7 @@ public class Killaura extends Mod {
 	 */
 	private void stopBlocking() {
 		if (blockingStatus) {
-			this.mc.getNetHandler().addToSendQueue(new C07PacketPlayerDigging(
+			mc.getNetHandler().addToSendQueue(new C07PacketPlayerDigging(
 					C07PacketPlayerDigging.Action.RELEASE_USE_ITEM, BlockPos.ORIGIN, EnumFacing.DOWN));
 			blockingStatus = false;
 		}
@@ -184,8 +184,6 @@ public class Killaura extends Mod {
 	}
 
 	private void sortList(List<EntityLivingBase> weed) {
-		this.setDisplayName(this.mode.getModeName(this.mode));
-
 		weed.sort((o1, o2) -> {
 			float[] rot1 = RotationUtil.getRotations(o1);
 			float[] rot2 = RotationUtil.getRotations(o2);

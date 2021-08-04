@@ -41,16 +41,16 @@ public class ESP2D extends Mod {
 	("ESP2D", "Mode", 0);
 	public Value<Boolean> player = new Value
 
-	("ESP2D_Player", true);
+	("ESP2D","Player", true);
 	public Value<Boolean> invis = new Value
 
-	("ESP2D_Invisibles", true);
+	("ESP2D","Invisibles", true);
 	public Value<Boolean> ARMOR = new Value
 
-	("ESP2D_Armor", false);
+	("ESP2D","Armor", false);
 	public Value<Boolean> HEALTH = new Value
 
-	("ESP2D_Health", false);
+	("ESP2D","Health", false);
 	private Map<EntityLivingBase, double[]>
 
 	entityConvertedPointsMap = new

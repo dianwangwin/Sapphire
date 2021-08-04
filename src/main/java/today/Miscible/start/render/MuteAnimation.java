@@ -15,7 +15,7 @@ public class MuteAnimation extends Mod{
 
 	public MuteAnimation() {
 		super("MuteAnimation", Category.Render);
-		swing = new Value("MuteAnimation_swing", false);
+		swing = new Value("MuteAnimation","swing", false);
 	}
 
 	

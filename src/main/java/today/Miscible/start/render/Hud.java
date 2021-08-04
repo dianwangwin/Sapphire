@@ -42,10 +42,10 @@ public class Hud extends Mod {
 		mode.addValue("CustomRainbow");
 		Animationmode.addValue("Slide");
 		Animationmode.addValue("streamlined");
-		BlackRect = new Value<Boolean>("Hud_BlackRect", true);
-		R = new Value("Hud_R", 90.0, 1.0, 255.0, 1.0);
-		G = new Value("Hud_G", 150.0, 1.0, 255.0, 1.0);
-		B = new Value("Hud_B", 255.0, 1.0, 255.0, 1.0);
+		BlackRect = new Value<Boolean>("Hud","BlackRect", true);
+		R = new Value("Hud","R", 90.0, 1.0, 255.0, 1.0);
+		G = new Value("Hud","G", 150.0, 1.0, 255.0, 1.0);
+		B = new Value("Hud","B", 255.0, 1.0, 255.0, 1.0);
 	}
 
 	@EventTarget

@@ -56,9 +56,9 @@ public class InvCleaner extends Mod {
 	public ItemStack bestPickAxe;
 	public ItemStack bestBow;
 
-	public Value<Double> clspeed = new Value("InvCleaner_CleanSpeed", 30d, 1d, 20d, 1d);
-	public Value<Boolean> onInv = new Value("InvCleaner_OpenInv", true);
-	public Value<Boolean> autodisable = new Value("InvCleaner_AutoDisable", true);
+	public Value<Double> clspeed = new Value("InvCleaner","CleanSpeed", 30d, 1d, 20d, 1d);
+	public Value<Boolean> onInv = new Value("InvCleaner","OpenInv", true);
+	public Value<Boolean> autodisable = new Value("InvCleaner","AutoDisable", true);
 	TimeHelper timer = new TimeHelper();
 
 	public InvCleaner() {

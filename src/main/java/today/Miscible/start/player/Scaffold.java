@@ -41,10 +41,10 @@ import today.Miscible.utils.timeUtils.TimeHelper;
 public class Scaffold extends Mod {
 	private BlockData blockData;
 	private TimeHelper time = new TimeHelper();
-	private Value<Boolean> tower = new Value<Boolean>("Scaffold_Tower", true);
-	private Value<Boolean> noSwing = new Value<Boolean>("Scaffold_NoSwing", false);
-	private Value<Boolean> silent = new Value<Boolean>("Scaffold_Silent", false);
-	public Value<Double> delayValue = new Value<Double>("Scaffold_Delay", 250.0, 40.0, 1000.0, 10.0);
+	private Value<Boolean> tower = new Value<Boolean>("Scaffold","Tower", true);
+	private Value<Boolean> noSwing = new Value<Boolean>("Scaffold","NoSwing", false);
+	private Value<Boolean> silent = new Value<Boolean>("Scaffold","Silent", false);
+	public Value<Double> delayValue = new Value<Double>("Scaffold","Delay", 250.0, 40.0, 1000.0, 10.0);
 	public Value<String> mode = new Value("Scaffold", "Mode", 0);
 	private BlockPos blockpos;
 	private EnumFacing facing;
@@ -58,7 +58,7 @@ public class Scaffold extends Mod {
 		mode.mode.add("Hypixel");
 		this.showValue = mode;
 		this.setDisplayName(this.getValue());
-		blacklisted = Arrays.asList(new Block[] { Blocks.air, Blocks.water, Blocks.flowing_water, Blocks.lava,
+		blacklisted = Arrays.asList(Blocks.air, Blocks.water, Blocks.flowing_water, Blocks.lava,
 				Blocks.flowing_lava, Blocks.enchanting_table, Blocks.ender_chest, Blocks.yellow_flower, Blocks.carpet,
 				Blocks.glass_pane, Blocks.stained_glass_pane, Blocks.iron_bars, Blocks.crafting_table,
 				Blocks.snow_layer, Blocks.packed_ice, Blocks.coal_ore, Blocks.diamond_ore, Blocks.emerald_ore,
@@ -72,10 +72,10 @@ public class Scaffold extends Mod {
 				Blocks.dark_oak_fence_gate, Blocks.jungle_fence_gate, Blocks.spruce_fence_gate, Blocks.oak_fence_gate,
 				Blocks.dispenser, Blocks.sapling, Blocks.tallgrass, Blocks.deadbush, Blocks.web, Blocks.red_flower,
 				Blocks.red_mushroom, Blocks.brown_mushroom, Blocks.nether_brick_fence, Blocks.vine, Blocks.double_plant,
-				Blocks.flower_pot, Blocks.beacon, Blocks.pumpkin, Blocks.lit_pumpkin });
-		blacklistedBlocks = Arrays.asList(new Block[] { Blocks.air, Blocks.water, Blocks.flowing_water, Blocks.lava,
+				Blocks.flower_pot, Blocks.beacon, Blocks.pumpkin, Blocks.lit_pumpkin);
+		blacklistedBlocks = Arrays.asList(Blocks.air, Blocks.water, Blocks.flowing_water, Blocks.lava,
 				Blocks.flowing_lava, Blocks.ender_chest, Blocks.enchanting_table, Blocks.stone_button,
-				Blocks.wooden_button, Blocks.crafting_table, Blocks.beacon });
+				Blocks.wooden_button, Blocks.crafting_table, Blocks.beacon);
 
 	}
 

@@ -26,10 +26,10 @@ import today.Miscible.utils.timeUtils.TimeHelper;
 
 public class ChestStealer extends Mod {
 
-	public Value<Double> delay = new Value("ChestStealer_Delay", 65d, 0d, 200d, 1d);
-	public Value<Boolean> cchest = new Value("ChestStealer_CloseChest", true);
-	public Value<Boolean> IGNORE = new Value("ChestStealer_Ignore", true);
-	public Value<Boolean> DROP = new Value("ChestStealer_Drop", true);
+	public Value<Double> delay = new Value("ChestStealer","Delay", 65d, 0d, 200d, 1d);
+	public Value<Boolean> cchest = new Value("ChestStealer","CloseChest", true);
+	public Value<Boolean> IGNORE = new Value("ChestStealer","Ignore", true);
+	public Value<Boolean> DROP = new Value("ChestStealer","Drop", true);
 	public Value<String> mode = new Value("ChestStealer", "Mode", 0);
 	TimeHelper time = new TimeHelper();
 	private boolean isStealing;
