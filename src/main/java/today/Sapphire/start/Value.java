@@ -11,7 +11,6 @@ public class Value<T> {
         list = new ArrayList<Value>();
     }
 
-    public final int RADIUS = 4;
     private final T defaultValue;
     private final String name;
     public T value;
@@ -23,13 +22,8 @@ public class Value<T> {
     public boolean isValueLong;
     public boolean isValueByte;
     public ArrayList<String> mode;
-    public double sliderX;
     public boolean set;
-    public boolean isSettingMode;
-    public boolean openMods;
-    public double maxSliderSize;
     public float currentRadius;
-    public boolean disabled;
     private T valueMin;
     private T valueMax;
     private double step;
@@ -37,97 +31,23 @@ public class Value<T> {
     private String modeTitle;
 
 
-    public Value(final String classname, final String modeTitle, final int current) {
-        this.set = false;
-        this.currentRadius = 4.0f;
-        this.isValueBoolean = false;
-        this.isValueInteger = false;
-        this.isValueFloat = false;
-        this.isValueDouble = false;
-        this.isValueLong = false;
-        this.isValueByte = false;
+    public Value(final String classname, final String modeTitle, final String[] value,final int current) {
+        resetValue();
         this.defaultValue = this.value;
         this.isValueMode = true;
         this.step = 0.1;
-        this.mode = new ArrayList<String>();
+        this.mode = new ArrayList<>();
+        for(int i =0; i < value.length; i++) {
+            this.mode.add(value[i]);
+        }
         this.current = current;
         this.name = classname + "_" + "Mode";
         this.modeTitle = modeTitle;
         Value.list.add(this);
     }
 
-    public Value(final Class<?> classname, final String modeTitle, final int current) {
-        this.set = false;
-        this.currentRadius = 4.0f;
-        this.isValueBoolean = false;
-        this.isValueInteger = false;
-        this.isValueFloat = false;
-        this.isValueDouble = false;
-        this.isValueLong = false;
-        this.isValueByte = false;
-        this.defaultValue = this.value;
-        this.isValueMode = true;
-        this.step = 0.1;
-        this.mode = new ArrayList<String>();
-        this.current = current;
-        this.name = classname.getSimpleName() + "_" + "Mode";
-        this.modeTitle = modeTitle;
-        Value.list.add(this);
-    }
-
-
-    public Value(final Class<?> classname, final String mode, final T defaultValue, final T valueMin, final T valueMax) {
-        this.set = false;
-        this.currentRadius = 4.0f;
-        this.isValueBoolean = false;
-        this.isValueInteger = false;
-        this.isValueFloat = false;
-        this.isValueDouble = false;
-        this.isValueLong = false;
-        this.isValueByte = false;
-        this.defaultValue = this.value;
-        this.name = classname.getSimpleName() + "_" + mode;
-        this.value = defaultValue;
-        this.valueMin = valueMin;
-        this.valueMax = valueMax;
-        this.step = 0.1;
-        if (this.value instanceof Double) {
-            this.isValueDouble = true;
-        }
-        Value.list.add(this);
-    }
-
-    public Value(final String name, final String mode, final T defaultValue, final T valueMin, final T valueMax) {
-        this.set = false;
-        this.currentRadius = 4.0f;
-        this.isValueBoolean = false;
-        this.isValueInteger = false;
-        this.isValueFloat = false;
-        this.isValueDouble = false;
-        this.isValueLong = false;
-        this.isValueByte = false;
-        this.defaultValue = this.value;
-        this.name = name + "_" + mode;
-        this.value = defaultValue;
-        this.valueMin = valueMin;
-        this.valueMax = valueMax;
-        this.step = 0.1;
-        if (this.value instanceof Double) {
-            this.isValueDouble = true;
-        }
-        Value.list.add(this);
-    }
-
-
     public Value(final String name, final String mode, final T value, final T valueMin, final T valueMax, final double steps) {
-        this.set = false;
-        this.currentRadius = 4.0f;
-        this.isValueBoolean = false;
-        this.isValueInteger = false;
-        this.isValueFloat = false;
-        this.isValueDouble = false;
-        this.isValueLong = false;
-        this.isValueByte = false;
+        resetValue();
         this.defaultValue = value;
         this.name = name + "_" + mode;
         this.value = value;
@@ -137,41 +57,21 @@ public class Value<T> {
         if (value instanceof Double) {
             this.isValueDouble = true;
         }
-        Value.list.add(this);
-    }
-
-
-    public Value(final Class<?> classname, final String mode, final T value, final T valueMin, final T valueMax, final double steps) {
-        this.set = false;
-        this.currentRadius = 4.0f;
-        this.isValueBoolean = false;
-        this.isValueInteger = false;
-        this.isValueFloat = false;
-        this.isValueDouble = false;
-        this.isValueLong = false;
-        this.isValueByte = false;
-        this.defaultValue = value;
-        this.name = classname.getSimpleName() + "_" + mode;
-        this.value = value;
-        this.valueMin = valueMin;
-        this.valueMax = valueMax;
-        this.step = steps;
-        if (value instanceof Double) {
-            this.isValueDouble = true;
+        if (value instanceof Integer) {
+            this.isValueInteger = true;
+        }
+        if (value instanceof Long) {
+            this.isValueLong = true;
+        }
+        if (value instanceof Byte) {
+            this.isValueByte = true;
         }
         Value.list.add(this);
     }
 
 
     public Value(final Class<?> classname, final String mode, final T value) {
-        this.set = false;
-        this.currentRadius = 4.0f;
-        this.isValueBoolean = false;
-        this.isValueInteger = false;
-        this.isValueFloat = false;
-        this.isValueDouble = false;
-        this.isValueLong = false;
-        this.isValueByte = false;
+        resetValue();
         this.defaultValue = value;
         this.name = classname.getSimpleName() + "_" + mode;
         this.value = value;
@@ -191,14 +91,7 @@ public class Value<T> {
 
 
     public Value(final String name, final String mode, final T value) {
-        this.set = false;
-        this.currentRadius = 4.0f;
-        this.isValueBoolean = false;
-        this.isValueInteger = false;
-        this.isValueFloat = false;
-        this.isValueDouble = false;
-        this.isValueLong = false;
-        this.isValueByte = false;
+        resetValue();
         this.defaultValue = value;
         this.name = name + "_" + mode;
         this.value = value;
@@ -216,7 +109,7 @@ public class Value<T> {
         Value.list.add(this);
     }
 
-    public Value(final String name, final String name2, final String nam3, final T value, final T value2, final T value3) {
+    public void resetValue() {
         this.set = false;
         this.currentRadius = 4.0f;
         this.isValueBoolean = false;
@@ -225,32 +118,6 @@ public class Value<T> {
         this.isValueDouble = false;
         this.isValueLong = false;
         this.isValueByte = false;
-        this.defaultValue = value;
-        this.name = name;
-        this.value = value;
-        if (value instanceof Boolean) {
-            this.isValueBoolean = true;
-        } else if (value instanceof Integer) {
-            this.isValueInteger = true;
-        } else if (value instanceof Float) {
-            this.isValueFloat = true;
-        } else if (value instanceof Double) {
-            this.isValueDouble = true;
-        } else if (value instanceof Long) {
-            this.isValueLong = true;
-        } else if (value instanceof Byte) {
-            this.isValueByte = true;
-        }
-        Value.list.add(this);
-    }
-
-    public static Value getBooleanValueByName(final String name) {
-        for (final Value value : Value.list) {
-            if (value.isValueBoolean && value.getValueName().equalsIgnoreCase(name)) {
-                return value;
-            }
-        }
-        return null;
     }
 
     public static Value getDoubleValueByName(final String name) {
@@ -279,10 +146,6 @@ public class Value<T> {
             }
         }
         return list;
-    }
-
-    public void addValue(final String valueName) {
-        this.mode.add(valueName);
     }
 
     public Value<T> LoadValue(final String[] Value) {
@@ -406,8 +269,8 @@ public class Value<T> {
         return name.split("_")[1];
     }
 
-    public final String getModeName(Value modes) {
-        return String.valueOf(modes.getModeAt(modes.getCurrentMode()));
+    public final String getModeName() {
+        return String.valueOf(this.getModeAt(this.getCurrentMode()));
     }
 
 }

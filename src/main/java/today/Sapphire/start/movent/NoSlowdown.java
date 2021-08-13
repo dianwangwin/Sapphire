@@ -20,9 +20,7 @@ public class NoSlowdown extends Mod {
 
 	public NoSlowdown() {
 		super("NoSlow", Category.Movement);
-		this.mode = new Value("NoSlow", "Mode", 0);
-		this.mode.addValue("Hypixel");
-		this.mode.addValue("Vanilla");
+		this.mode = new Value("NoSlow", "Mode", new String[]{"Hypixel", "Vanilla"},0);
 	}
 
 	@EventTarget
@@ -31,7 +29,7 @@ public class NoSlowdown extends Mod {
 		if (Killaura.blockTarget != null && (mc.thePlayer.isBlocking()
 				|| Minecraft.getMinecraft().thePlayer.getHeldItem().getItem() instanceof ItemSword)) {
 
-			switch (this.mode.getModeName(this.mode)) {
+			switch (this.mode.getModeName()) {
 			case "Hypixel": {
 				this.mc.thePlayer.sendQueue.addToSendQueue(new C07PacketPlayerDigging(
 						C07PacketPlayerDigging.Action.RELEASE_USE_ITEM, new BlockPos(-1, -1, -1), EnumFacing.DOWN));
@@ -50,10 +48,10 @@ public class NoSlowdown extends Mod {
 
 		if (Killaura.blockTarget != null && (mc.thePlayer.isBlocking()
 				|| Minecraft.getMinecraft().thePlayer.getHeldItem().getItem() instanceof ItemSword)) {
-			switch (this.mode.getModeName(this.mode)) {
+			switch (this.mode.getModeName()) {
 			case "Hypixel": {
-				this.mc.thePlayer.sendQueue.addToSendQueue(new C08PacketPlayerBlockPlacement(new BlockPos(-1, -1, -1),
-						255, this.mc.thePlayer.inventory.getCurrentItem(), 0.0f, 0.0f, 0.0f));
+				mc.thePlayer.sendQueue.addToSendQueue(new C08PacketPlayerBlockPlacement(new BlockPos(-1, -1, -1),
+					255, mc.thePlayer.inventory.getCurrentItem(), 0.0f, 0.0f, 0.0f));
 				break;
 			}
 			case "Vanilla": {

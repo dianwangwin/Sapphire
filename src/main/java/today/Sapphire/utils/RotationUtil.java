@@ -77,43 +77,43 @@ public class RotationUtil {
 	    double maxy = e.posY + Math.abs(e.posY - box.maxY) ;
 	    double minz = e.posZ - 0.25;
 	    double maxz = e.posZ + 0.25;
-	    boolean see =  mc.theWorld.rayTraceBlocks(vec1, vec2) == null? true:false;
+	    boolean see = mc.theWorld.rayTraceBlocks(vec1, vec2) == null;
 	    if(see)
 	    	return true;
 	    vec2 = new Vec3(maxx,miny,minz);	
-	    see = mc.theWorld.rayTraceBlocks(vec1, vec2) == null? true:false;
+	    see = mc.theWorld.rayTraceBlocks(vec1, vec2) == null;
 	    if(see)
 	    	return true;
 	    vec2 = new Vec3(minx,miny,minz);	
-	    see = mc.theWorld.rayTraceBlocks(vec1, vec2) == null? true:false;
+	    see = mc.theWorld.rayTraceBlocks(vec1, vec2) == null;
 	  
 	    if(see)
 	    	return true;
 	    vec2 = new Vec3(minx,miny,maxz);	
-	    see = mc.theWorld.rayTraceBlocks(vec1, vec2) == null? true:false;
+	    see = mc.theWorld.rayTraceBlocks(vec1, vec2) == null;
 	    if(see)
 	    	return true;
 	    vec2 = new Vec3(maxx,miny,maxz);	
-	    see = mc.theWorld.rayTraceBlocks(vec1, vec2) == null? true:false;
+	    see = mc.theWorld.rayTraceBlocks(vec1, vec2) == null;
 	    if(see)
 	    	return true;
 	    
 	    vec2 = new Vec3(maxx, maxy,minz);	
-	    see = mc.theWorld.rayTraceBlocks(vec1, vec2) == null? true:false;
+	    see = mc.theWorld.rayTraceBlocks(vec1, vec2) == null;
 	  
 	    if(see)
 	    	return true;
 	    vec2 = new Vec3(minx, maxy,minz);	
 
-	    see = mc.theWorld.rayTraceBlocks(vec1, vec2) == null? true:false;
+	    see = mc.theWorld.rayTraceBlocks(vec1, vec2) == null;
 	    if(see)
 	    	return true;
 	    vec2 = new Vec3(minx, maxy,maxz - 0.1);	
-	    see = mc.theWorld.rayTraceBlocks(vec1, vec2) == null? true:false;
+	    see = mc.theWorld.rayTraceBlocks(vec1, vec2) == null;
 	    if(see)
 	    	return true;
 	    vec2 = new Vec3(maxx, maxy,maxz);	
-	    see = mc.theWorld.rayTraceBlocks(vec1, vec2) == null? true:false;
+	    see = mc.theWorld.rayTraceBlocks(vec1, vec2) == null;
 	    if(see)
 	    	return true;
 	    

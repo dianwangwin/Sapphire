@@ -1,7 +1,6 @@
 package today.Sapphire.start.combat;
 
 import com.darkmagician6.eventapi.EventTarget;
-
 import net.minecraft.network.play.server.S12PacketEntityVelocity;
 import net.minecraft.network.play.server.S27PacketExplosion;
 import today.Sapphire.events.EventReceivePacket;
@@ -9,31 +8,40 @@ import today.Sapphire.start.Mod;
 import today.Sapphire.start.Value;
 
 public class Velocity extends Mod {
-	private Value<String> mode;
+
+	private final Value<String> mode;
+	private final Value<Boolean> S27;
+
+	private final Value<Double> Horizontal , Vertical;
 
 	public Velocity() {
 		super("Velocity", Category.Combat);
-		this.mode = new Value<String>("Velocity", "Mode", 0);
-		this.mode.addValue("Simple");
+		mode = new Value<>("Velocity", "Mode", new String[]{"Simple"} , 0);
+		Horizontal =  new Value<>("Velocity", "Horizontal", 1.0 , 0.0 ,  1.0 , 0.05);
+		Vertical =  new Value<>("Velocity", "Vertical", 1.0 , 0.0 ,  1.0 , 0.05);
+		S27 = new Value<>("Velocity", "CancelPacketExplosion", true);
 	}
 
 	@EventTarget
 	public void onEvent(EventReceivePacket event) {
-		this.setDisplayName(this.mode.getModeName(this.mode));
-		S12PacketEntityVelocity packet;
-		if (this.mc.theWorld
-				.getEntityByID((packet = (S12PacketEntityVelocity) event.packet).getEntityID()) == this.mc.thePlayer) {
-			switch (this.mode.getModeName(this.mode)) {
-			case "Simple": {
-				if (event.getPacket() instanceof S12PacketEntityVelocity) {
-					event.setCancelled(true);
-				}
+		if (mc.theWorld.getEntityByID(((S12PacketEntityVelocity) event.packet).getEntityID()) == mc.thePlayer) {
 
-				if (event.getPacket() instanceof S27PacketExplosion) {
-					event.setCancelled(true);
+			if (mode.getModeName().equals("Simple")) {
+				if (event.getPacket() instanceof S12PacketEntityVelocity) {
+					S12PacketEntityVelocity entityVelocity = (S12PacketEntityVelocity)event.getPacket();
+
+					if(Horizontal.getValueState() == 0.0 && Vertical.getValueState() == 0.0) {
+						event.setCancelled(true);
+					} else {
+						entityVelocity.motionX *= Horizontal.getValueState();
+						entityVelocity.motionZ *= Horizontal.getValueState();
+						entityVelocity.motionY *= Vertical.getValueState();
+					}
 				}
-				break;
 			}
+
+			if (event.getPacket() instanceof S27PacketExplosion && S27.getValueState()) {
+				event.setCancelled(true);
 			}
 		}
 	}

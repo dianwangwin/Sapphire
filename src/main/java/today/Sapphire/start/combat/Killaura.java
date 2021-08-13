@@ -15,12 +15,13 @@ import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemSword;
-import net.minecraft.network.play.client.C02PacketUseEntity;
 import net.minecraft.network.play.client.C07PacketPlayerDigging;
 import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
+import org.spongepowered.asm.mixin.Overwrite;
 import today.Sapphire.events.EventPreMotion;
+import today.Sapphire.events.EventRender;
 import today.Sapphire.start.Mod;
 import today.Sapphire.start.Value;
 import today.Sapphire.utils.RotationUtil;
@@ -57,11 +58,15 @@ public class Killaura extends Mod {
 
 	private final List<EntityLivingBase> targets = new ArrayList();
 	private final List<EntityLivingBase> blockTargets = new ArrayList();
-	private final TimeHelper timer = new TimeHelper();
+
+	private final TimeHelper attacktimer = new TimeHelper();
+	private int click = 0;
+
 
 	public Killaura() {
 		super("Killaura", Category.Combat);
-		mode = new Value("Killaura", "mode", 0);
+		mode = new Value("Killaura", "mode",  new String[]{"Switch" , "Single"}, 0);
+
 		MaxSpeed = new Value("Killaura" , "MaxCps", 12.0, 1.0, 20.0, 1.0);
 		MinSpeed = new Value("Killaura","MinCps", 8.0, 1.0, 20.0, 1.0);
 		hurtTime = new Value("Killaura","HurtTime", 10, 0, 10, 1);
@@ -74,8 +79,6 @@ public class Killaura extends Mod {
 		autoblock = new Value("Killaura","AutoBlock", true);
 		invisibles = new Value("Killaura","Invisibles", false);
 		blockRayTrace = new Value("Killaura","blockRayTrace", true);
-		mode.addValue("Switch");
-		mode.addValue("Single");
 	}
 
 	@Override
@@ -90,15 +93,15 @@ public class Killaura extends Mod {
 
 	@Override
 	public void onEnable() {
-		this.targets.clear();
+		targets.clear();
 		target = null;
 		blockTarget = null;
 	}
 
 	@EventTarget
 	public void onUpdate(final EventPreMotion event) {
-		this.targets.clear();
-		target = this.getBestTarget(this.blockRange.getValueState());
+		targets.clear();
+		target = getBestTarget(this.blockRange.getValueState());
 
 		if (target != null) {
 			if ((double) mc.thePlayer.getDistanceToEntity(target) <= range.getValueState()) {
@@ -108,29 +111,39 @@ public class Killaura extends Mod {
 		} else {
 			blockTarget = null;
 			target = null;
-			this.targets.clear();
+			targets.clear();
 			if (blockingStatus) {
 				stopBlocking();
 			}
 		}
-		doAttack();
+
+		if (target != null) {
+			while (click > 0) {
+				doAttack();
+				click--;
+			}
+		}
+	}
+
+	@EventTarget
+	public void onRender(EventRender render) { // Copy
+		if (target != null && attacktimer.isDelayComplete(randomClickDelay(Math.min(MinSpeed.getValue().intValue(), MaxSpeed.getValue().intValue()), Math.max(MinSpeed.getValue().intValue(), MaxSpeed.getValue().intValue())))) {
+			click++;
+			attacktimer.reset();
+		}
 	}
 
 	private void doAttack() {
 		if (blockTarget != null && mc.thePlayer.getDistanceToEntity(blockTarget) <= blockRange.getValueState()) {
-			if (this.timer
-					.isDelayComplete(1000 / randomNumber(MaxSpeed.getValueState(), MinSpeed.getValueState()))) {
-				timer.reset();
 
 				if ((mc.thePlayer.isBlocking() || blockingStatus) && isHoldingSword()) {
 					stopBlocking();
 				}
 
 				if (mc.thePlayer.getDistanceToEntity(target) <= this.range.getValueState())
-					this.attack(target);
+					attack(target);
 
 				startBlocking(mc.thePlayer.isBlocking());
-			}
 		}
 	}
 
@@ -147,9 +160,8 @@ public class Killaura extends Mod {
 	 * Start blocking
 	 */
 	private void startBlocking(final boolean always) {
-		if (this.isHoldingSword() && (!blockingStatus || always)) {
-			mc.getNetHandler()
-					.addToSendQueue(new C08PacketPlayerBlockPlacement(mc.thePlayer.inventory.getCurrentItem()));
+		if (isHoldingSword() && (!blockingStatus || always)) {
+			mc.getNetHandler().addToSendQueue(new C08PacketPlayerBlockPlacement(mc.thePlayer.inventory.getCurrentItem()));
 			blockingStatus = true;
 		}
 
@@ -167,9 +179,8 @@ public class Killaura extends Mod {
 	}
 
 	private void attack(final EntityLivingBase target) {
-		this.mc.thePlayer.swingItem();
-		mc.getNetHandler().addToSendQueue(new C02PacketUseEntity(target, C02PacketUseEntity.Action.ATTACK));
-
+		mc.thePlayer.swingItem();
+		mc.playerController.attackEntity(mc.thePlayer , target);
 	}
 
 	private static int randomNumber(double min, double max) {
@@ -178,8 +189,8 @@ public class Killaura extends Mod {
 	}
 
 	public boolean isHoldingSword() {
-		return autoblock.getValueState() && (this.mc.thePlayer.getCurrentEquippedItem() != null)
-				&& (this.mc.thePlayer.getCurrentEquippedItem().getItem() instanceof ItemSword)
+		return autoblock.getValueState() && (mc.thePlayer.getCurrentEquippedItem() != null)
+				&& (mc.thePlayer.getCurrentEquippedItem().getItem() instanceof ItemSword)
 				;
 	}
 
@@ -194,7 +205,7 @@ public class Killaura extends Mod {
 
 	private EntityLivingBase getBestTarget(double range) {
 		this.targets.clear();
-		for (final Entity e : this.mc.theWorld.loadedEntityList) {
+		for (final Entity e : mc.theWorld.loadedEntityList) {
 			if (e instanceof EntityLivingBase) {
 				final EntityLivingBase ent = (EntityLivingBase) e;
 				if (this.validEntity(ent, range)) {
@@ -213,13 +224,10 @@ public class Killaura extends Mod {
 	boolean validEntity(EntityLivingBase entity, double range) {
 		if ((mc.thePlayer.isEntityAlive()) && !(entity instanceof EntityPlayerSP)) {
 			if (mc.thePlayer.getDistanceToEntity(entity) <= range) {
-				if (!RotationUtil.canEntityBeSeen(entity) && !true)
+				if (!RotationUtil.canEntityBeSeen(entity))
 					return false;
 				if (entity.isPlayerSleeping())
 					return false;
-
-				// if (FriendManager.isFriend(entity.getName()))
-				// return false;
 
 				if (entity instanceof EntityPlayer) {
 					if (this.players.getValueState()) {

@@ -14,15 +14,13 @@ public class Animation extends Mod {
 
 	public Animation() {
 		super("Animation", Category.Misc);
-		mode = new Value("Animation", "mode", 0);
-		mode.addValue("Swank");
-		mode.addValue("Miscible");
+		mode = new Value("Animation", "mode", new String[]{"Swank" ,"Miscible" }, 0);
+		setDisplayName(mode.getModeName());
 	}
 
 	@EventTarget
 	private void onAnimation(EventAnimation event) {
-		this.setDisplayName(this.mode.getModeName(this.mode));
-		switch (this.mode.getModeName(this.mode)) {
+		switch (this.mode.getModeName()) {
 		case "Swank": {
 			Swank(event.pre, event.post);
 			event.doBlockTransformations();

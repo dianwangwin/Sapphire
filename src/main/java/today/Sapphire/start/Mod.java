@@ -14,8 +14,6 @@ public class Mod {
 	public static Minecraft mc = Minecraft.getMinecraft();
 
 	public String displayName = "";
-	public Value showValue;
-	public String suffix;
 	public String name;
 
 	public Category category;
@@ -27,8 +25,7 @@ public class Mod {
 	public double arrowAnlge;
 	
 	public float posX;
-	public float posY;
-	
+
 	public int key;
 
 	public Mod(String name, Category category) {
@@ -36,10 +33,6 @@ public class Mod {
 		this.name = name;
 		this.arrowAnlge = 0.0;
 		this.category = category;
-	}
-
-	public String getSuffix() {
-		return this.suffix;
 	}
 
 	public String getDisplayName() {
@@ -64,6 +57,7 @@ public class Mod {
 	}
 
 	public void onToggle() {
+
 	}
 
 	public void toggle() {
@@ -78,17 +72,6 @@ public class Mod {
 		}
 	}
 
-	public void disableValues() {
-	}
-
-	public String getValue() {
-		if (this.showValue == null) {
-			return "";
-		}
-		return this.showValue.isValueMode ? this.showValue.getModeAt(this.showValue.getCurrentMode())
-				: String.valueOf(this.showValue.getValueState());
-	}
-
 	public void set(boolean state) {
 		this.set(state, true);
 	}
@@ -97,16 +80,12 @@ public class Mod {
 		this.isEnabled = state;
 
 		if (state) {
-			if (this.mc.theWorld != null) {
-
+			if (mc.theWorld != null) {
 				this.onEnable();
 			}
-
 			EventManager.register(this);
 		} else {
-
-			if (this.mc.theWorld != null) {
-
+			if (mc.theWorld != null) {
 				this.onDisable();
 			}
 			EventManager.unregister(this);

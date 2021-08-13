@@ -23,8 +23,7 @@ public class Speed extends Mod {
 
 	public Speed() {
 		super("Speed", Category.Movement);
-		mode = new Value("Speed", "mode", 0);
-		mode.addValue("Hypixel");
+		mode = new Value("Speed", "mode", new String[]{"Hypixel"},0);
 	}
 
 	@EventTarget
@@ -46,16 +45,16 @@ public class Speed extends Mod {
 	}
 
 	public BlockPos underPlayer() {
-		return new BlockPos(this.mc.thePlayer.posX, this.mc.thePlayer.getEntityBoundingBox().minY - 1.0,
-				this.mc.thePlayer.posZ);
+		return new BlockPos(mc.thePlayer.posX, mc.thePlayer.getEntityBoundingBox().minY - 1.0,
+				mc.thePlayer.posZ);
 	}
 
 	@EventTarget
 	private void onMove(EventMove event)  {
-		this.setDisplayName(this.mode.getModeName(this.mode));
+		this.setDisplayName(this.mode.getModeName());
 
 		
-		switch (this.mode.getModeName(this.mode)) {
+		switch (this.mode.getModeName()) {
 		
 		case "Hypixel": {
 			stage += 1;

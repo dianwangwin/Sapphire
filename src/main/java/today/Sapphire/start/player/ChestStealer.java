@@ -29,13 +29,12 @@ public class ChestStealer extends Mod {
 	public Value<Boolean> cchest = new Value("ChestStealer","CloseChest", true);
 	public Value<Boolean> IGNORE = new Value("ChestStealer","Ignore", true);
 	public Value<Boolean> DROP = new Value("ChestStealer","Drop", true);
-	public Value<String> mode = new Value("ChestStealer", "Mode", 0);
+	public Value<String> mode = new Value("ChestStealer", "Mode" , new String[]{"Hypixel"}, 0);
 	TimeHelper time = new TimeHelper();
 	private boolean isStealing;
 
 	public ChestStealer() {
 		super("ChestStealer", Category.World);
-		this.mode.mode.add("Hypixel");
 	}
 	
     private static Minecraft mc = Minecraft.getMinecraft();

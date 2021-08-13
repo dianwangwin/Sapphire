@@ -14,9 +14,9 @@ import today.Sapphire.start.Value;
 import today.Sapphire.utils.timeUtils.TimeHelper;
 
 public class AutoPot extends Mod {
-	private Value<Double> delay = new Value<Double>("AutoPot_Delay", 50.0, 0.0, 1000.0, 10.0);
-	private Value<Double> health = new Value<Double>("AutoPot_Health", 6.0, 0.5, 9.5, 0.5);
-	private Value<Boolean> throwInInv = new Value<Boolean>("AutoPot_OnlyInv", true);
+	private Value<Double> delay = new Value<Double>("AutoPot","Delay", 50.0, 0.0, 1000.0, 10.0);
+	private Value<Double> health = new Value<Double>("AutoPot","Health", 6.0, 0.5, 9.5, 0.5);
+	private Value<Boolean> throwInInv = new Value<Boolean>("AutoPot","OnlyInv", true);
 	private TimeHelper timer = new TimeHelper();
 	private TimeHelper throwTimer = new TimeHelper();
 	private boolean nextTick = false;

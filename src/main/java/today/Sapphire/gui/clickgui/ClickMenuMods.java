@@ -87,6 +87,7 @@ public class ClickMenuMods {
                 this.closed = true;
             }
         }
+
         int yAxis = (int)this.yPos;
         final int height = 20;
         final ScaledResolution res = new ScaledResolution(Minecraft.getMinecraft());

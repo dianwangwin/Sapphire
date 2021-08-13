@@ -37,6 +37,7 @@ public class ModManager {
     	
     	//Move
     	addMod(new NoSlowdown());
+	addMod(new KeepSprint());
     	addMod(new AntiFall());
     	addMod(new InvMove());
     	addMod(new Sprint());

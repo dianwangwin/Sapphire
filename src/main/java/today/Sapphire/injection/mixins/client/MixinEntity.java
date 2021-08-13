@@ -17,7 +17,12 @@ import net.minecraft.world.World;
 
 @Mixin({Entity.class})
 public abstract class MixinEntity {
-	@Shadow
+
+
+    @Shadow
+    public float fallDistance;
+
+    @Shadow
     public double posX;
 
     @Shadow

@@ -10,20 +10,19 @@ import today.Sapphire.start.Value;
 
 public class NoFall extends Mod {
 
-	public Value<String> mode = new Value("NoFall", "Mode", 0);
+	public Value<String> mode = new Value("NoFall", "Mode", new String[]{"Hypixel"},  0);
 
 	public NoFall() {
 		super("NoFall", Category.Movement);
-		this.mode.mode.add("Hypixel");
+		setDisplayName(mode.getModeName());
 	}
 
 	private float lastFall;
 
 	@EventTarget
 	private void onPre(EventPreMotion event) {
-		this.setDisplayName(this.mode.getModeName(this.mode));
-		
-		switch (this.mode.getModeName(this.mode)) {
+
+		switch (this.mode.getModeName()) {
 		case "Hypixel": {
 			float falldis = 0.825f + (float) getJumpEffect();
 			if (mc.thePlayer.fallDistance - this.lastFall >= falldis) {

@@ -32,6 +32,9 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovementInput;
 import net.minecraft.util.ReportedException;
 import net.minecraft.util.ResourceLocation;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import today.Sapphire.command.Command;
 import today.Sapphire.command.CommandManager;
 import today.Sapphire.events.EventMove;
@@ -150,7 +153,7 @@ public abstract class MixinEntityPlayerSP extends MixinAbstractClientPlayer {
 
 			if (this.timeInPortal == 0.0F) {
 				this.mc.getSoundHandler().playSound(PositionedSoundRecord.create(new ResourceLocation("portal.trigger"),
-						this.rand.nextFloat() * 0.4F + 0.8F));
+					this.rand.nextFloat() * 0.4F + 0.8F));
 			}
 
 			this.timeInPortal += 0.0125F;
@@ -161,7 +164,7 @@ public abstract class MixinEntityPlayerSP extends MixinAbstractClientPlayer {
 
 			this.inPortal = false;
 		} else if (this.isPotionActive(Potion.confusion)
-				&& this.getActivePotionEffect(Potion.confusion).getDuration() > 60) {
+			&& this.getActivePotionEffect(Potion.confusion).getDuration() > 60) {
 			this.timeInPortal += 0.006666667F;
 
 			if (this.timeInPortal > 1.0F) {
@@ -186,31 +189,31 @@ public abstract class MixinEntityPlayerSP extends MixinAbstractClientPlayer {
 		float f = 0.8F;
 		boolean flag2 = this.movementInput.moveForward >= f;
 		this.movementInput.updatePlayerMoveState();
-		
-		NoSlowdown noSlowdown = (NoSlowdown)ModManager.getModuleForClass(NoSlowdown.class);
 
-		if (getHeldItem() != null && (this.isUsingItem() || noSlowdown.isEnabled() ) && !this.isRiding()) {
-			
-			float speed = noSlowdown.isEnabled() ? 1.0f :  0.2f;
-			
+		NoSlowdown noSlowdown = (NoSlowdown) ModManager.getModuleForClass(NoSlowdown.class);
+
+		if (getHeldItem() != null && (this.isUsingItem() || noSlowdown.isEnabled()) && !this.isRiding()) {
+
+			float speed = noSlowdown.isEnabled() ? 1.0f : 0.2f;
+
 			this.movementInput.moveStrafe *= speed;
 			this.movementInput.moveForward *= speed;
 			this.sprintToggleTimer = 0;
 		}
 
 		this.pushOutOfBlocks(this.posX - (double) this.width * 0.35D, this.getEntityBoundingBox().minY + 0.5D,
-				this.posZ + (double) this.width * 0.35D);
+			this.posZ + (double) this.width * 0.35D);
 		this.pushOutOfBlocks(this.posX - (double) this.width * 0.35D, this.getEntityBoundingBox().minY + 0.5D,
-				this.posZ - (double) this.width * 0.35D);
+			this.posZ - (double) this.width * 0.35D);
 		this.pushOutOfBlocks(this.posX + (double) this.width * 0.35D, this.getEntityBoundingBox().minY + 0.5D,
-				this.posZ - (double) this.width * 0.35D);
+			this.posZ - (double) this.width * 0.35D);
 		this.pushOutOfBlocks(this.posX + (double) this.width * 0.35D, this.getEntityBoundingBox().minY + 0.5D,
-				this.posZ + (double) this.width * 0.35D);
+			this.posZ + (double) this.width * 0.35D);
 
 		boolean flag3 = (float) this.getFoodStats().getFoodLevel() > 6.0F || this.capabilities.allowFlying;
 
 		if (this.onGround && !flag1 && !flag2 && this.movementInput.moveForward >= f && !this.isSprinting() && flag3
-				&& !this.isUsingItem() && !this.isPotionActive(Potion.blindness)) {
+			&& !this.isUsingItem() && !this.isPotionActive(Potion.blindness)) {
 			if (this.sprintToggleTimer <= 0 && !this.mc.gameSettings.keyBindSprint.isKeyDown()) {
 				this.sprintToggleTimer = 7;
 			} else {
@@ -219,7 +222,7 @@ public abstract class MixinEntityPlayerSP extends MixinAbstractClientPlayer {
 		}
 
 		if (!this.isSprinting() && this.movementInput.moveForward >= f && flag3 && !this.isUsingItem()
-				&& !this.isPotionActive(Potion.blindness) && this.mc.gameSettings.keyBindSprint.isKeyDown()) {
+			&& !this.isPotionActive(Potion.blindness) && this.mc.gameSettings.keyBindSprint.isKeyDown()) {
 			this.setSprinting(true);
 		}
 
@@ -333,7 +336,7 @@ public abstract class MixinEntityPlayerSP extends MixinAbstractClientPlayer {
 
 				// noinspection ConstantConditions
 				for (d6 = 0.05D; x != 0.0D && this.worldObj.getCollidingBoundingBoxes((Entity) (Object) this,
-						this.getEntityBoundingBox().offset(x, -1.0D, 0.0D)).isEmpty(); d3 = x) {
+					this.getEntityBoundingBox().offset(x, -1.0D, 0.0D)).isEmpty(); d3 = x) {
 					if (x < d6 && x >= -d6) {
 						x = 0.0D;
 					} else if (x > 0.0D) {
@@ -345,7 +348,7 @@ public abstract class MixinEntityPlayerSP extends MixinAbstractClientPlayer {
 
 				// noinspection ConstantConditions
 				for (; z != 0.0D && this.worldObj.getCollidingBoundingBoxes((Entity) (Object) this,
-						this.getEntityBoundingBox().offset(0.0D, -1.0D, z)).isEmpty(); d5 = z) {
+					this.getEntityBoundingBox().offset(0.0D, -1.0D, z)).isEmpty(); d5 = z) {
 					if (z < d6 && z >= -d6) {
 						z = 0.0D;
 					} else if (z > 0.0D) {
@@ -357,7 +360,7 @@ public abstract class MixinEntityPlayerSP extends MixinAbstractClientPlayer {
 
 				// noinspection ConstantConditions
 				for (; x != 0.0D && z != 0.0D && this.worldObj.getCollidingBoundingBoxes((Entity) (Object) this,
-						this.getEntityBoundingBox().offset(x, -1.0D, z)).isEmpty(); d5 = z) {
+					this.getEntityBoundingBox().offset(x, -1.0D, z)).isEmpty(); d5 = z) {
 					if (x < d6 && x >= -d6) {
 						x = 0.0D;
 					} else if (x > 0.0D) {
@@ -380,7 +383,7 @@ public abstract class MixinEntityPlayerSP extends MixinAbstractClientPlayer {
 
 			// noinspection ConstantConditions
 			List<AxisAlignedBB> list1 = this.worldObj.getCollidingBoundingBoxes((Entity) (Object) this,
-					this.getEntityBoundingBox().addCoord(x, y, z));
+				this.getEntityBoundingBox().addCoord(x, y, z));
 			AxisAlignedBB axisalignedbb = this.getEntityBoundingBox();
 
 			for (AxisAlignedBB axisalignedbb1 : list1) {
@@ -415,7 +418,7 @@ public abstract class MixinEntityPlayerSP extends MixinAbstractClientPlayer {
 
 				// noinspection ConstantConditions
 				List<AxisAlignedBB> list = this.worldObj.getCollidingBoundingBoxes((Entity) (Object) this,
-						this.getEntityBoundingBox().addCoord(d3, y, d5));
+					this.getEntityBoundingBox().addCoord(d3, y, d5));
 				AxisAlignedBB axisalignedbb4 = this.getEntityBoundingBox();
 				AxisAlignedBB axisalignedbb5 = axisalignedbb4.addCoord(d3, 0.0D, d5);
 				double d9 = y;
@@ -546,25 +549,25 @@ public abstract class MixinEntityPlayerSP extends MixinAbstractClientPlayer {
 				}
 
 				this.distanceWalkedModified = (float) ((double) this.distanceWalkedModified
-						+ (double) MathHelper.sqrt_double(d12 * d12 + d14 * d14) * 0.6D);
+					+ (double) MathHelper.sqrt_double(d12 * d12 + d14 * d14) * 0.6D);
 				this.distanceWalkedOnStepModified = (float) ((double) this.distanceWalkedOnStepModified
-						+ (double) MathHelper.sqrt_double(d12 * d12 + d13 * d13 + d14 * d14) * 0.6D);
+					+ (double) MathHelper.sqrt_double(d12 * d12 + d13 * d13 + d14 * d14) * 0.6D);
 
 				if (this.distanceWalkedOnStepModified > (float) getNextStepDistance()
-						&& block1.getMaterial() != Material.air) {
+					&& block1.getMaterial() != Material.air) {
 					setNextStepDistance((int) this.distanceWalkedOnStepModified + 1);
 
 					if (this.isInWater()) {
 						float f = MathHelper.sqrt_double(this.motionX * this.motionX * 0.20000000298023224D
-								+ this.motionY * this.motionY + this.motionZ * this.motionZ * 0.20000000298023224D)
-								* 0.35F;
+							+ this.motionY * this.motionY + this.motionZ * this.motionZ * 0.20000000298023224D)
+							* 0.35F;
 
 						if (f > 1.0F) {
 							f = 1.0F;
 						}
 
 						this.playSound(this.getSwimSound(), f,
-								1.0F + (this.rand.nextFloat() - this.rand.nextFloat()) * 0.4F);
+							1.0F + (this.rand.nextFloat() - this.rand.nextFloat()) * 0.4F);
 					}
 
 					this.playStepSound(blockpos, block1);
@@ -576,7 +579,7 @@ public abstract class MixinEntityPlayerSP extends MixinAbstractClientPlayer {
 			} catch (Throwable throwable) {
 				CrashReport crashreport = CrashReport.makeCrashReport(throwable, "Checking entity block collision");
 				CrashReportCategory crashreportcategory = crashreport
-						.makeCategory("Entity being checked for collision");
+					.makeCategory("Entity being checked for collision");
 				this.addEntityCrashInfo(crashreportcategory);
 				throw new ReportedException(crashreport);
 			}
@@ -628,10 +631,10 @@ public abstract class MixinEntityPlayerSP extends MixinAbstractClientPlayer {
 		if (flag != this.serverSprintState) {
 			if (flag) {
 				this.sendQueue.addToSendQueue(new C0BPacketEntityAction(Minecraft.getMinecraft().thePlayer,
-						C0BPacketEntityAction.Action.START_SPRINTING));
+					C0BPacketEntityAction.Action.START_SPRINTING));
 			} else {
 				this.sendQueue.addToSendQueue(new C0BPacketEntityAction(Minecraft.getMinecraft().thePlayer,
-						C0BPacketEntityAction.Action.STOP_SPRINTING));
+					C0BPacketEntityAction.Action.STOP_SPRINTING));
 			}
 			this.serverSprintState = flag;
 		}
@@ -641,10 +644,10 @@ public abstract class MixinEntityPlayerSP extends MixinAbstractClientPlayer {
 		if (flag1 != this.serverSneakState) {
 			if (flag1) {
 				this.sendQueue.addToSendQueue(new C0BPacketEntityAction(Minecraft.getMinecraft().thePlayer,
-						C0BPacketEntityAction.Action.START_SNEAKING));
+					C0BPacketEntityAction.Action.START_SNEAKING));
 			} else {
 				this.sendQueue.addToSendQueue(new C0BPacketEntityAction(Minecraft.getMinecraft().thePlayer,
-						C0BPacketEntityAction.Action.STOP_SNEAKING));
+					C0BPacketEntityAction.Action.STOP_SNEAKING));
 			}
 			this.serverSneakState = flag1;
 		}
@@ -660,19 +663,19 @@ public abstract class MixinEntityPlayerSP extends MixinAbstractClientPlayer {
 			if (this.ridingEntity == null) {
 				if (flag2 && flag3) {
 					this.sendQueue.addToSendQueue(new C03PacketPlayer.C06PacketPlayerPosLook(this.posX, pre.getY(),
-							this.posZ, this.rotationYaw, this.rotationPitch, pre.isOnGround()));
+						this.posZ, this.rotationYaw, this.rotationPitch, pre.isOnGround()));
 				} else if (flag2) {
 					this.sendQueue.addToSendQueue(
-							new C03PacketPlayer.C04PacketPlayerPosition(this.posX, pre.y, this.posZ, pre.onGround));
+						new C03PacketPlayer.C04PacketPlayerPosition(this.posX, pre.y, this.posZ, pre.onGround));
 				} else if (flag3) {
 					this.sendQueue.addToSendQueue(new C03PacketPlayer.C05PacketPlayerLook(this.rotationYaw,
-							this.rotationPitch, pre.onGround));
+						this.rotationPitch, pre.onGround));
 				} else {
 					this.sendQueue.addToSendQueue(new C03PacketPlayer(pre.onGround));
 				}
 			} else {
 				this.sendQueue.addToSendQueue(new C03PacketPlayer.C06PacketPlayerPosLook(this.motionX, -999.0D,
-						this.motionZ, this.rotationYaw, this.rotationPitch, this.onGround));
+					this.motionZ, this.rotationYaw, this.rotationPitch, this.onGround));
 				flag2 = false;
 			}
 

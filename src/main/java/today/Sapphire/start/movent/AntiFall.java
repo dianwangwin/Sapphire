@@ -17,14 +17,13 @@ public class AntiFall extends Mod {
 
 	private TimeHelper timer = new TimeHelper();
 	private boolean saveMe;
-	public static Value<Boolean> VOID = new Value("AntiFall_Void", true);
-	public Value<Double> DISTANCE = new Value<Double>("AntiFall_distance", 5.0, 1.0, 20.0, 1.0);
-	public Value<String> mode = new Value("AntiFall", "Mode", 0);
+	public static Value<Boolean> VOID = new Value("AntiFall" , "Void", true);
+	public Value<Double> DISTANCE = new Value<Double>("AntiFall", "distance", 5.0, 1.0, 20.0, 1.0);
+	public Value<String> mode = new Value("AntiFall", "Mode", new String[]{"Hypixel"} ,0);
 
 	public AntiFall() {
 		super("AntiFall", Category.Movement);
-		this.mode.mode.add("Hypixel");
-
+		setDisplayName(mode.getModeName());
 	}
 
 	@EventTarget

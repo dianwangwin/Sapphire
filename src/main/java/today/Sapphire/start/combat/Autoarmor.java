@@ -20,7 +20,7 @@ public class Autoarmor extends Mod {
 
 	public Autoarmor() {
 		super("Autoarmor", Category.Player);
-		delay = new Value<Double>("AutoArmor_Delay", 60.0, 0.0, 1000.0, 10.0);
+		delay = new Value<Double>("AutoArmor","Delay", 60.0, 0.0, 1000.0, 10.0);
 	}
 
 	@EventTarget

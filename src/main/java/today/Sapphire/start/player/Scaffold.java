@@ -37,7 +37,7 @@ public class Scaffold extends Mod {
 	private Value<Boolean> noSwing = new Value<Boolean>("Scaffold","NoSwing", false);
 	private Value<Boolean> silent = new Value<Boolean>("Scaffold","Silent", false);
 	public Value<Double> delayValue = new Value<Double>("Scaffold","Delay", 250.0, 40.0, 1000.0, 10.0);
-	public Value<String> mode = new Value("Scaffold", "Mode", 0);
+	public Value<String> mode = new Value("Scaffold", "Mode", new String[]{"Normal" , "Hypixel"},0);
 	private BlockPos blockpos;
 	private EnumFacing facing;
 	private List<Block> blacklisted;
@@ -46,10 +46,9 @@ public class Scaffold extends Mod {
 
 	public Scaffold() {
 		super("Scaffold", Category.Movement);
-		mode.mode.add("Normal");
-		mode.mode.add("Hypixel");
-		this.showValue = mode;
-		this.setDisplayName(this.getValue());
+
+		this.setDisplayName(mode.getModeName());
+
 		blacklisted = Arrays.asList(Blocks.air, Blocks.water, Blocks.flowing_water, Blocks.lava,
 				Blocks.flowing_lava, Blocks.enchanting_table, Blocks.ender_chest, Blocks.yellow_flower, Blocks.carpet,
 				Blocks.glass_pane, Blocks.stained_glass_pane, Blocks.iron_bars, Blocks.crafting_table,

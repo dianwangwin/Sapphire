@@ -34,17 +34,13 @@ public class Hud extends Mod {
 
 	public Hud() {
 		super("Hud", Category.Render);
-		animationmode = new Value("Hud", "Animationmode", 0);
-		mode = new Value("Hud", "mode", 0);
-		mode.addValue("Custom");
-		mode.addValue("CustomRainbow");
-		animationmode.addValue("Slide");
-		animationmode.addValue("streamlined");
-		blackRect = new Value<Boolean>("Hud_BlackRect", true);
-		R = new Value("Hud_R", 90.0, 1.0, 255.0, 1.0);
-		G = new Value("Hud_G", 150.0, 1.0, 255.0, 1.0);
-		B = new Value("Hud_B", 255.0, 1.0, 255.0, 1.0);
-		waterMark = new Value<>("Hud_WaterMark",true);
+		animationmode = new Value("Hud", "Animationmode",new String[]{"Slide" , "streamlined"}, 0);
+		mode = new Value("Hud", "mode", new String[]{"Custom" , "CustomRainbow" } , 0);
+		blackRect = new Value<Boolean>("Hud","BlackRect", true);
+		R = new Value("Hud","R", 90.0, 1.0, 255.0, 1.0);
+		G = new Value("Hud", "G", 150.0, 1.0, 255.0, 1.0);
+		B = new Value("Hud", "B", 255.0, 1.0, 255.0, 1.0);
+		waterMark = new Value<Boolean>("Hud","WaterMark",true);
 	}
 
 	@EventTarget
@@ -76,7 +72,7 @@ public class Hud extends Mod {
 					m.getDisplayName().isEmpty() ? m.getName() : String.format("%s%s", m.getName(), m.getDisplayName()),
 					"Hud");
 
-			switch (this.animationmode.getModeName(this.animationmode)) {
+			switch (this.animationmode.getModeName()) {
 			case "Slide": {
 				time = 200f;
 				break;
