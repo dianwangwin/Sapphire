@@ -82,6 +82,11 @@ public class Killaura extends Mod {
 	}
 
 	@Override
+	public void Alwas() {
+		setDisplayName(mode.getModeName());
+	}
+
+	@Override
 	public void onDisable() {
 		this.targets.clear();
 		target = null;

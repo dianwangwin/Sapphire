@@ -7,6 +7,8 @@ import today.Sapphire.Sapphire;
 
 public class Mod {
 
+	public static Mod instance;
+
 	public enum Category {
 		Combat, Movement, Render, Player, World, Misc;
 	}
@@ -40,7 +42,7 @@ public class Mod {
 	}
 
 	public void setDisplayName(String displayName) {
-		String suffix = displayName.toString();
+		String suffix = displayName;
 		if (suffix.isEmpty()) {
 			this.displayName = suffix;
 		} else {
@@ -48,15 +50,15 @@ public class Mod {
 		}
 	}
 
+	public void Alwas() {
+
+	}
+
 	public void onEnable() {
 
 	}
 
 	public void onDisable() {
-
-	}
-
-	public void onToggle() {
 
 	}
 

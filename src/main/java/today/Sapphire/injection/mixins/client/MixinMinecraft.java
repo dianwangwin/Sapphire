@@ -55,6 +55,11 @@ public abstract class MixinMinecraft {
 
 	@Inject(method = "runTick", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/Minecraft;dispatchKeypresses()V", shift = At.Shift.AFTER))
 	private void onKey(CallbackInfo ci) throws IOException {
+
+		for (Mod m : ModManager.modList) {
+			m.Alwas();
+		}
+
 		if (Keyboard.getEventKeyState() && currentScreen == null)
 			EventManager.call(new EventKey(
 					Keyboard.getEventKey() == 0 ? Keyboard.getEventCharacter() + 256 : Keyboard.getEventKey()));
@@ -75,6 +80,7 @@ public abstract class MixinMinecraft {
 		long thisFrame = System.currentTimeMillis();
 		RenderUtil.delta = (float) (thisFrame - this.lastFrame) / 1000.0f;
 		this.lastFrame = thisFrame;
+
 	}
 
 	public Timer getTimer() {

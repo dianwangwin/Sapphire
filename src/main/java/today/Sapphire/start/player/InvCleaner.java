@@ -88,6 +88,8 @@ public class InvCleaner extends Mod {
 				145 }).forEach(this.blacklistedItemIDs::add);
 	}
 
+
+
 	@Override
 	public void onEnable() {
 		this.slots = 9;

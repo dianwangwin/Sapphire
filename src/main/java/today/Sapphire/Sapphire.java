@@ -44,9 +44,6 @@ public class Sapphire {
 			System.err.println("ConFig Loging erro");
 			e.printStackTrace();
 		}
-		
-		Hud hud = (Hud)ModManager.getModuleForClass(Hud.class);
-		
 	}
 	
 	public void stopClient() {
