@@ -125,6 +125,7 @@ public abstract class MixinEntityPlayerSP extends MixinAbstractClientPlayer {
 	private float lastReportedPitch;
 
 	/**
+	 * @reason CCbluex
 	 * @author CCBlueX
 	 */
 	@Overwrite
@@ -609,6 +610,10 @@ public abstract class MixinEntityPlayerSP extends MixinAbstractClientPlayer {
 		}
 	}
 
+	/**
+	 * @reason liquidslowly
+	 * @author liquidslowly
+	 */
 	@Overwrite
 	public void onUpdateWalkingPlayer() {
 		boolean flag = this.isSprinting();
@@ -703,7 +708,8 @@ public abstract class MixinEntityPlayerSP extends MixinAbstractClientPlayer {
 	}
 
 	/**
-	 * @author LiquidSlowly
+	 * @reason liquidslowly
+	 * @author liquidslowly
 	 */
 	@Overwrite
 	public void sendChatMessage(String message) {

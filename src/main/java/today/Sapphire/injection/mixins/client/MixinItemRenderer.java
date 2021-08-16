@@ -77,7 +77,8 @@ public abstract class MixinItemRenderer {
 
 
     /**
-     * @author CCBlueX
+     * @reason liquidslowly
+     * @author liquidslowly
      */
     @Overwrite
     public void renderItemInFirstPerson(float partialTicks) {

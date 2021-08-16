@@ -42,12 +42,7 @@ public class Mod {
 	}
 
 	public void setDisplayName(String displayName) {
-		String suffix = displayName;
-		if (suffix.isEmpty()) {
-			this.displayName = suffix;
-		} else {
-			this.displayName = String.format(" %s", EnumChatFormatting.GRAY + displayName);
-		}
+		this.displayName = String.format(" %s", EnumChatFormatting.GRAY + displayName);
 	}
 
 	public void Alwas() {
@@ -124,9 +119,4 @@ public class Mod {
 		}
 		return false;
 	}
-
-	public void onUpdate() {
-
-	}
-
 }

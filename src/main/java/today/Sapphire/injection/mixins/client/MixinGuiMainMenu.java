@@ -20,9 +20,9 @@ public class MixinGuiMainMenu  extends GuiScreen {
 
 	@Shadow
 	private GuiButton realmsButton;
-	
 	/**
-	 * @author  Mojang
+	 * @reason liquidslowly
+	 * @author liquidslowly
 	 */
 	@Overwrite
 	private void addSingleplayerMultiplayerButtons(int p_addSingleplayerMultiplayerButtons_1_, int p_addSingleplayerMultiplayerButtons_2_) {

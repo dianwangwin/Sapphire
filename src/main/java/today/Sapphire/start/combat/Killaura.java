@@ -1,11 +1,6 @@
 package today.Sapphire.start.combat;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-
 import com.darkmagician6.eventapi.EventTarget;
-
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -19,7 +14,6 @@ import net.minecraft.network.play.client.C07PacketPlayerDigging;
 import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
-import org.spongepowered.asm.mixin.Overwrite;
 import today.Sapphire.events.EventPreMotion;
 import today.Sapphire.events.EventRender;
 import today.Sapphire.start.Mod;
@@ -30,22 +24,26 @@ import today.Sapphire.utils.rotationLib.AngleUtility;
 import today.Sapphire.utils.rotationLib.Vector3;
 import today.Sapphire.utils.timeUtils.TimeHelper;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
 public class Killaura extends Mod {
 
 	private final Value<String> mode;
 	private final Value<Double> MaxSpeed;
 	private final Value<Double> MinSpeed;
-	private final Value<Double> hurtTime;
+	public final Value<Double> hurtTime;
 	private final Value<Double> blockRange;
 	private final Value<Double> range;
 
 	private final Value<Boolean> players;
 	private final Value<Boolean> Teams;
 	private final Value<Boolean> animals;
-	private final Value<Boolean> mobs;
+	public final Value<Boolean> mobs;
 	private final Value<Boolean> autoblock;
 	private final Value<Boolean> invisibles;
-	private final Value<Boolean> blockRayTrace;
+	public final Value<Boolean> blockRayTrace;
 
 	public static EntityLivingBase target;
 	public static EntityLivingBase blockTarget;
@@ -57,7 +55,6 @@ public class Killaura extends Mod {
 	}
 
 	private final List<EntityLivingBase> targets = new ArrayList();
-	private final List<EntityLivingBase> blockTargets = new ArrayList();
 
 	private final TimeHelper attacktimer = new TimeHelper();
 	private int click = 0;
@@ -65,20 +62,20 @@ public class Killaura extends Mod {
 
 	public Killaura() {
 		super("Killaura", Category.Combat);
-		mode = new Value("Killaura", "mode",  new String[]{"Switch" , "Single"}, 0);
+		mode = new Value("Killaura", "mode", new String[]{"Switch", "Single"}, 0);
 
-		MaxSpeed = new Value("Killaura" , "MaxCps", 12.0, 1.0, 20.0, 1.0);
-		MinSpeed = new Value("Killaura","MinCps", 8.0, 1.0, 20.0, 1.0);
-		hurtTime = new Value("Killaura","HurtTime", 10, 0, 10, 1);
-		blockRange = new Value("Killaura","BlockRange", 4.8, 1.0, 12.0, 0.1);
-		range = new Value("Killaura","Range", 4.2, 1.0, 7.0, 0.1);
-		players = new Value("Killaura","Players", true);
-		Teams = new Value("Killaura","Teams", true);
-		animals = new Value("Killaura","Animals", false);
-		mobs = new Value("Killaura","Mobs", false);
-		autoblock = new Value("Killaura","AutoBlock", true);
-		invisibles = new Value("Killaura","Invisibles", false);
-		blockRayTrace = new Value("Killaura","blockRayTrace", true);
+		MaxSpeed = new Value("Killaura", "MaxCps", 12.0, 1.0, 20.0, 1.0);
+		MinSpeed = new Value("Killaura", "MinCps", 8.0, 1.0, 20.0, 1.0);
+		hurtTime = new Value("Killaura", "HurtTime", 10, 0, 10, 1);
+		blockRange = new Value("Killaura", "BlockRange", 4.8, 1.0, 12.0, 0.1);
+		range = new Value("Killaura", "Range", 4.2, 1.0, 7.0, 0.1);
+		players = new Value("Killaura", "Players", true);
+		Teams = new Value("Killaura", "Teams", true);
+		animals = new Value("Killaura", "Animals", false);
+		mobs = new Value("Killaura", "Mobs", false);
+		autoblock = new Value("Killaura", "AutoBlock", true);
+		invisibles = new Value("Killaura", "Invisibles", false);
+		blockRayTrace = new Value("Killaura", "blockRayTrace", true);
 	}
 
 	@Override
@@ -106,17 +103,18 @@ public class Killaura extends Mod {
 	@EventTarget
 	public void onUpdate(final EventPreMotion event) {
 		targets.clear();
-		target = getBestTarget(this.blockRange.getValueState());
+		target = getBestTarget(this.range.getValueState());
+		blockTarget = getBestTarget(this.blockRange.getValueState());
 
 		if (target != null) {
-			if ((double) mc.thePlayer.getDistanceToEntity(target) <= range.getValueState()) {
-				event.setYaw(RotationLib()[0]);
-				event.setPitch(RotationLib()[1]);
-			}
+			event.setRotation(RotationLib());
+
 		} else {
+
 			blockTarget = null;
 			target = null;
 			targets.clear();
+
 			if (blockingStatus) {
 				stopBlocking();
 			}
@@ -141,14 +139,13 @@ public class Killaura extends Mod {
 	private void doAttack() {
 		if (blockTarget != null && mc.thePlayer.getDistanceToEntity(blockTarget) <= blockRange.getValueState()) {
 
-				if ((mc.thePlayer.isBlocking() || blockingStatus) && isHoldingSword()) {
-					stopBlocking();
-				}
+			if ((mc.thePlayer.isBlocking() || blockingStatus) && isHoldingSword())
+				stopBlocking();
 
-				if (mc.thePlayer.getDistanceToEntity(target) <= this.range.getValueState())
-					attack(target);
+			if (mc.thePlayer.getDistanceToEntity(target) <= this.range.getValueState())
+				attack(target);
 
-				startBlocking(mc.thePlayer.isBlocking());
+			startBlocking(mc.thePlayer.isBlocking());
 		}
 	}
 
@@ -158,7 +155,7 @@ public class Killaura extends Mod {
 		Vector3<Double> myCoords = new Vector3<>(mc.thePlayer.posX, mc.thePlayer.posY, mc.thePlayer.posZ);
 		Angle dstAngle = angleUtility.calculateAngle(enemyCoords, myCoords);
 		Angle smoothedAngle1 = angleUtility.smoothAngle(dstAngle, dstAngle);
-		return new float[] { smoothedAngle1.getYaw(), smoothedAngle1.getPitch() };
+		return new float[]{smoothedAngle1.getYaw(), smoothedAngle1.getPitch()};
 	}
 
 	/**
@@ -178,14 +175,14 @@ public class Killaura extends Mod {
 	private void stopBlocking() {
 		if (blockingStatus) {
 			mc.getNetHandler().addToSendQueue(new C07PacketPlayerDigging(
-					C07PacketPlayerDigging.Action.RELEASE_USE_ITEM, BlockPos.ORIGIN, EnumFacing.DOWN));
+				C07PacketPlayerDigging.Action.RELEASE_USE_ITEM, BlockPos.ORIGIN, EnumFacing.DOWN));
 			blockingStatus = false;
 		}
 	}
 
 	private void attack(final EntityLivingBase target) {
 		mc.thePlayer.swingItem();
-		mc.playerController.attackEntity(mc.thePlayer , target);
+		mc.playerController.attackEntity(mc.thePlayer, target);
 	}
 
 	private static int randomNumber(double min, double max) {
@@ -195,8 +192,8 @@ public class Killaura extends Mod {
 
 	public boolean isHoldingSword() {
 		return autoblock.getValueState() && (mc.thePlayer.getCurrentEquippedItem() != null)
-				&& (mc.thePlayer.getCurrentEquippedItem().getItem() instanceof ItemSword)
-				;
+			&& (mc.thePlayer.getCurrentEquippedItem().getItem() instanceof ItemSword)
+			;
 	}
 
 	private void sortList(List<EntityLivingBase> weed) {
@@ -204,7 +201,7 @@ public class Killaura extends Mod {
 			float[] rot1 = RotationUtil.getRotations(o1);
 			float[] rot2 = RotationUtil.getRotations(o2);
 			return (int) ((o1.getDistanceToEntity(mc.thePlayer) * 1000)
-					- (o2.getDistanceToEntity(mc.thePlayer) * 1000));
+				- (o2.getDistanceToEntity(mc.thePlayer) * 1000));
 		});
 	}
 
@@ -215,7 +212,6 @@ public class Killaura extends Mod {
 				final EntityLivingBase ent = (EntityLivingBase) e;
 				if (this.validEntity(ent, range)) {
 					this.targets.add(ent);
-					blockTarget = ent;
 				}
 			}
 		}
@@ -229,6 +225,7 @@ public class Killaura extends Mod {
 	boolean validEntity(EntityLivingBase entity, double range) {
 		if ((mc.thePlayer.isEntityAlive()) && !(entity instanceof EntityPlayerSP)) {
 			if (mc.thePlayer.getDistanceToEntity(entity) <= range) {
+
 				if (!RotationUtil.canEntityBeSeen(entity))
 					return false;
 				if (entity.isPlayerSleeping())
@@ -250,15 +247,15 @@ public class Killaura extends Mod {
 					if (!entity.isEntityAlive())
 						return false;
 				}
-				if (this.animals.getValueState()) {
-					if (entity instanceof EntityMob || entity instanceof EntityIronGolem
-							|| entity instanceof EntityAnimal || entity instanceof EntityVillager) {
-						if (entity.getName().equals("Villager") && entity instanceof EntityVillager) {
-							return false;
-						}
-						return true;
-					}
+
+				if (entity instanceof EntityMob && !mobs.getValueState()) {
+					return false;
 				}
+
+				if((entity instanceof EntityIronGolem || entity instanceof EntityAnimal || entity instanceof EntityVillager) && !this.animals.getValueState())
+					return false;
+
+				return  true;
 			}
 		}
 		return false;
@@ -268,11 +265,11 @@ public class Killaura extends Mod {
 		if (teams) {
 			if (mc.thePlayer.getDisplayName().getUnformattedText().startsWith("\247")) {
 				if ((mc.thePlayer.getDisplayName().getUnformattedText().length() <= 2)
-						|| (entity.getDisplayName().getUnformattedText().length() <= 2)) {
+					|| (entity.getDisplayName().getUnformattedText().length() <= 2)) {
 					return false;
 				}
 				if (mc.thePlayer.getDisplayName().getUnformattedText().substring(0, 2)
-						.equals(entity.getDisplayName().getUnformattedText().substring(0, 2))) {
+					.equals(entity.getDisplayName().getUnformattedText().substring(0, 2))) {
 					return true;
 				}
 			}
