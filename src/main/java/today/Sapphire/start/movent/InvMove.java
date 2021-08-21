@@ -13,9 +13,9 @@ import today.Sapphire.start.Mod;
 
 public class InvMove extends Mod {
 
-	KeyBinding[] key = { this.mc.gameSettings.keyBindForward, this.mc.gameSettings.keyBindBack,
-			this.mc.gameSettings.keyBindLeft, this.mc.gameSettings.keyBindRight, this.mc.gameSettings.keyBindSprint,
-			this.mc.gameSettings.keyBindJump };
+	KeyBinding[] key = { mc.gameSettings.keyBindForward, mc.gameSettings.keyBindBack,
+			mc.gameSettings.keyBindLeft, mc.gameSettings.keyBindRight, mc.gameSettings.keyBindSprint,
+			mc.gameSettings.keyBindJump };
 	KeyBinding[] array;
 
 	public InvMove() {
@@ -25,12 +25,12 @@ public class InvMove extends Mod {
 	@EventTarget
 	public void onUpdate(EventUpdate event) {
 		if (!(mc.currentScreen instanceof GuiChat)) {
-			if (this.mc.currentScreen != null && !(this.mc.currentScreen instanceof GuiChat)) {
+			if (mc.currentScreen != null) {
 				for (int length = (array = key).length, i = 0; i < length; ++i) {
 					KeyBinding b = array[i];
 					KeyBinding.setKeyBindState(b.getKeyCode(), Keyboard.isKeyDown(b.getKeyCode()));
 				}
-			} else if (Objects.isNull(mc.currentScreen)) {
+			} else {
 				for (int length = (array = key).length, i = 0; i < length; ++i) {
 					KeyBinding b = array[i];
 					if (!Keyboard.isKeyDown(b.getKeyCode())) {

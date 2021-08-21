@@ -13,7 +13,7 @@ public class Clickgui extends Mod {
 	
 	@Override
 	public void onEnable() {
-		this.mc.displayGuiScreen(Sapphire.instance.ui);
+		mc.displayGuiScreen(Sapphire.instance.ui);
 		this.toggle();
 		super.onEnable();
 	}

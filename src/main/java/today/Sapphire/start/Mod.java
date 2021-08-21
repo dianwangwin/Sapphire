@@ -13,6 +13,10 @@ public class Mod {
 		Combat, Movement, Render, Player, World, Misc;
 	}
 
+	/* Clickgui value */
+	public int valueSize = 0;
+	/* */
+
 	public static Minecraft mc = Minecraft.getMinecraft();
 
 	public String displayName = "";

@@ -320,4 +320,140 @@ public enum RenderUtil {
 		GL11.glDisable(3042);
 		GL11.glDisable(2848);
 	}
+
+	public static void startGlScissor(int x, int y, int width, int height) {
+		int scaleFactor = 1;
+		int k = Minecraft.getMinecraft().gameSettings.guiScale;
+		if (k == 0) k = 1000;
+		while (scaleFactor < k && Minecraft.getMinecraft().displayWidth / (scaleFactor + 1) >= 320
+			&& Minecraft.getMinecraft().displayHeight / (scaleFactor + 1) >= 240) {
+			++scaleFactor;
+		}
+		GlStateManager.pushMatrix();
+		GL11.glEnable(GL11.GL_SCISSOR_TEST);
+		GL11.glScissor((x * scaleFactor), (Minecraft.getMinecraft().displayHeight - (y + height) * scaleFactor), (width * scaleFactor), (height * scaleFactor));
+		Gui.drawRect(0, 0, 0, 0, 0);
+	}
+
+	public static void stopGlScissor() {
+		GL11.glDisable(GL11.GL_SCISSOR_TEST);
+		GlStateManager.popMatrix();
+		Gui.drawRect(0, 0, 0, 0, 0);
+	}
+
+	public static void drawCircle(float xx, float yy, float radius, Color col, float width, float position, float round) {
+		int sections = 100;
+		double dAngle = (round * 2.0f) * 3.141592653589793 / sections;
+		float x = 0.0f;
+		float y = 0.0f;
+		GL11.glPushMatrix();
+		GL11.glEnable(3042);
+		GL11.glDisable(3553);
+		GL11.glBlendFunc(770, 771);
+		GL11.glEnable(2848);
+		GL11.glLineWidth(width);
+		GL11.glShadeModel(7425);
+		GL11.glBegin(2);
+		int i = (int) position;
+		while ((float) i < position + (float) sections) {
+			x = (float) (radius * Math.cos(i * dAngle));
+			y = (float) (radius * Math.sin(i * dAngle));
+			GL11.glColor4f((float) col.getRed() / 255.0f, (float) col.getGreen() / 255.0f, (float) col.getBlue() / 255.0f, (float) col.getAlpha() / 255.0f);
+			GL11.glVertex2f(xx + x, yy + y);
+			++i;
+		}
+		i = (int) (position + (float) sections);
+		while (i > (int) position) {
+			x = (float) (radius * Math.cos(i * dAngle));
+			y = (float) (radius * Math.sin(i * dAngle));
+			GL11.glColor4f((float) col.getRed() / 255.0f, (float) col.getGreen() / 255.0f, (float) col.getBlue() / 255.0f, (float) col.getAlpha() / 255.0f);
+			GL11.glVertex2f(xx + x, yy + y);
+			--i;
+		}
+		GlStateManager.color(0.0f, 0.0f, 0.0f);
+		GL11.glEnd();
+		GL11.glEnable(3553);
+		GL11.glDisable(3042);
+		GL11.glDisable(2848);
+		GL11.glPopMatrix();
+	}
+
+	public static void drawCircle(float xx, float yy, float radius, Color col) {
+		int sections = 70;
+		double dAngle = 6.283185307179586 / sections;
+		GL11.glPushMatrix();
+		GL11.glEnable(3042);
+		GL11.glDisable(3553);
+		GL11.glBlendFunc(770, 771);
+		GL11.glEnable(2848);
+		GL11.glLineWidth(1.0f);
+		GL11.glShadeModel(7425);
+		GL11.glBegin(2);
+		int i = 0;
+		while (i < sections) {
+			float x = (float) (radius * Math.cos(i * dAngle));
+			float y = (float) (radius * Math.sin(i * dAngle));
+			GL11.glColor4f((float) col.getRed() / 255.0f, (float) col.getGreen() / 255.0f, (float) col.getBlue() / 255.0f, (float) col.getAlpha() / 255.0f);
+			GL11.glVertex2f(xx + x, yy + y);
+			++i;
+		}
+		GlStateManager.color(0.0f, 0.0f, 0.0f);
+		GL11.glEnd();
+		GL11.glEnable(3553);
+		GL11.glDisable(3042);
+		GL11.glDisable(2848);
+		GL11.glPopMatrix();
+	}
+
+	public static void drawCircle(float cx, float cy, float r, int num_segments, int c) {
+		GL11.glPushMatrix();
+		cx *= 2.0F;
+		cy *= 2.0F;
+		float f = (float) (c >> 24 & 255) / 255.0F;
+		float f1 = (float) (c >> 16 & 255) / 255.0F;
+		float f2 = (float) (c >> 8 & 255) / 255.0F;
+		float f3 = (float) (c & 255) / 255.0F;
+		float theta = (float) (6.2831852D / num_segments);
+		float p = (float) Math.cos(theta);
+		float s = (float) Math.sin(theta);
+		float x = r *= 2.0F;
+		float y = 0.0F;
+		enableGL2D();
+		GL11.glScalef(0.5F, 0.5F, 0.5F);
+		GL11.glColor4f(f1, f2, f3, f);
+		GL11.glBegin(2);
+
+		for (int ii = 0; ii < num_segments; ++ii) {
+			GL11.glVertex2f(x + cx, y + cy);
+			float t = x;
+			x = p * x - s * y;
+			y = s * t + p * y;
+		}
+
+		GL11.glEnd();
+		GL11.glScalef(2.0F, 2.0F, 2.0F);
+		disableGL2D();
+		GL11.glPopMatrix();
+	}
+
+	public static void enableGL2D() {
+		GL11.glDisable(2929);
+		GL11.glEnable(3042);
+		GL11.glDisable(3553);
+		GL11.glBlendFunc(770, 771);
+		GL11.glDepthMask(true);
+		GL11.glEnable(2848);
+		GL11.glHint(3154, 4354);
+		GL11.glHint(3155, 4354);
+	}
+
+	public static void disableGL2D() {
+		GL11.glEnable(3553);
+		GL11.glDisable(3042);
+		GL11.glEnable(2929);
+		GL11.glDisable(2848);
+		GL11.glHint(3154, 4352);
+		GL11.glHint(3155, 4352);
+	}
+
 }

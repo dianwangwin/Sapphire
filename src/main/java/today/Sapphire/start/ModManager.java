@@ -1,6 +1,7 @@
 package today.Sapphire.start;
 
 import ibxm.Module;
+import org.jetbrains.annotations.NotNull;
 import today.Sapphire.start.combat.*;
 import today.Sapphire.start.misc.*;
 import today.Sapphire.start.movent.*;
@@ -105,6 +106,17 @@ public class ModManager {
         }
         return null;
     }
+
+	@NotNull
+	public static List<Mod> getModules(Mod.Category category) {
+		ArrayList<Mod> mods = new ArrayList<Mod>();
+		for (Mod mod : ModManager.getModList()) {
+			if (mod.getCategory() == category) {
+				mods.add(mod);
+			}
+		}
+		return mods;
+	}
 
     public static List<Module> getModules() {
         return ModManager.moduleList;

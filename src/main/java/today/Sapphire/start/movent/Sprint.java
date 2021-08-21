@@ -13,6 +13,7 @@ public class Sprint extends Mod {
 	
 	@EventTarget
 	private void onSprintln(EventUpdate event) {
+
 		if(this.isEnabled())
 		mc.thePlayer.setSprinting(mc.thePlayer.moveForward != 0.0f || mc.thePlayer.moveStrafing != 0.0f);
 	}

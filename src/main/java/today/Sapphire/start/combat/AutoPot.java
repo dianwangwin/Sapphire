@@ -38,31 +38,31 @@ public class AutoPot extends Mod {
 
 	@EventTarget
 	public void onPre(EventPreMotion event) {
-		if ((double) (this.mc.thePlayer.getHealth() / 2.0f) <= this.health.getValueState()) {
+		if ((double) (mc.thePlayer.getHealth() / 2.0f) <= health.getValueState()) {
 			event.pitch = 90.0f;
-			this.getPotion();
-			this.nextTick = true;
+			getPotion();
+			nextTick = true;
 		}
-		if (this.nextTick) {
+		if (nextTick) {
 			event.pitch = 90.0f;
-			this.throwPotion();
-			this.nextTick = false;
+			throwPotion();
+			nextTick = false;
 		}
 	}
 
 	private void getPotion() {
-		int slotId = this.getFreeSlot();
+		int slotId = getFreeSlot();
 		if (slotId != -1) {
 			int id = 9;
 			while (id <= 35) {
 				ItemStack currentItem;
-				Slot currentSlot = this.mc.thePlayer.inventoryContainer.getSlot(id);
+				Slot currentSlot = mc.thePlayer.inventoryContainer.getSlot(id);
 				if (currentSlot.getHasStack() && (currentItem = currentSlot.getStack()).getItem() instanceof ItemPotion
-						&& this.isSplashPotion(currentItem)
-						&& this.timer.isDelayComplete(this.delay.getValueState().intValue())) {
-					this.mc.playerController.windowClick(0, id, 0, 1, this.mc.thePlayer);
-					slotId = this.getFreeSlot();
-					this.timer.reset();
+						&& isSplashPotion(currentItem)
+						&& timer.isDelayComplete(delay.getValueState().intValue())) {
+					mc.playerController.windowClick(0, id, 0, 1, mc.thePlayer);
+					slotId = getFreeSlot();
+					timer.reset();
 				}
 				++id;
 			}
@@ -70,26 +70,26 @@ public class AutoPot extends Mod {
 	}
 
 	private void throwPotion() {
-		int slotId = this.getFreeSlot();
+		int slotId = getFreeSlot();
 		if (slotId != -1) {
 			int id = 36;
 			while (id <= 44) {
 				ItemStack currentItem;
-				Slot currentSlot = this.mc.thePlayer.inventoryContainer.getSlot(id);
+				Slot currentSlot = mc.thePlayer.inventoryContainer.getSlot(id);
 				if (currentSlot.getHasStack() && (currentItem = currentSlot.getStack()).getItem() instanceof ItemPotion
-						&& this.isSplashPotion(currentItem)
-						&& this.throwTimer.isDelayComplete(this.delay.getValueState().intValue())) {
-					int old = this.mc.thePlayer.inventory.currentItem;
-					this.mc.thePlayer.sendQueue.addToSendQueue(new C09PacketHeldItemChange(id - 36));
-					this.mc.thePlayer.sendQueue
+						&& isSplashPotion(currentItem)
+						&& throwTimer.isDelayComplete(delay.getValueState().intValue())) {
+					int old = mc.thePlayer.inventory.currentItem;
+					mc.thePlayer.sendQueue.addToSendQueue(new C09PacketHeldItemChange(id - 36));
+					mc.thePlayer.sendQueue
 							.addToSendQueue(new C08PacketPlayerBlockPlacement(new BlockPos(-1, -1, -1), -1,
-									this.mc.thePlayer.inventoryContainer.getSlot(id).getStack(), 0.0f, 0.0f, 0.0f));
-					this.mc.thePlayer.inventory.currentItem = id - 36;
-					this.mc.thePlayer.sendQueue.addToSendQueue(
-							new C08PacketPlayerBlockPlacement(this.mc.thePlayer.inventory.getCurrentItem()));
-					this.mc.thePlayer.sendQueue.addToSendQueue(new C09PacketHeldItemChange(old));
-					this.mc.thePlayer.inventory.currentItem = old;
-					this.throwTimer.reset();
+									mc.thePlayer.inventoryContainer.getSlot(id).getStack(), 0.0f, 0.0f, 0.0f));
+					mc.thePlayer.inventory.currentItem = id - 36;
+					mc.thePlayer.sendQueue.addToSendQueue(
+							new C08PacketPlayerBlockPlacement(mc.thePlayer.inventory.getCurrentItem()));
+					mc.thePlayer.sendQueue.addToSendQueue(new C09PacketHeldItemChange(old));
+					mc.thePlayer.inventory.currentItem = old;
+					throwTimer.reset();
 				}
 				++id;
 			}
@@ -103,7 +103,7 @@ public class AutoPot extends Mod {
 	private int getFreeSlot() {
 		int id = 36;
 		while (id < 45) {
-			Slot currentSlot = this.mc.thePlayer.inventoryContainer.getSlot(id);
+			Slot currentSlot = mc.thePlayer.inventoryContainer.getSlot(id);
 			if (!currentSlot.getHasStack()) {
 				return 1;
 			}

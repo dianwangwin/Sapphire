@@ -7,6 +7,7 @@ import net.minecraftforge.fml.common.Mod;
 import today.Sapphire.command.CommandManager;
 import today.Sapphire.gui.clickgui.CSGOUI;
 import today.Sapphire.gui.clickgui.UIClick;
+import today.Sapphire.newclickui.ClickUI;
 import today.Sapphire.start.ModManager;
 import today.Sapphire.start.render.Hud;
 import today.Sapphire.utils.fileUtils.FileUtil;
@@ -20,7 +21,7 @@ public class Sapphire {
 	public FileUtil fileUtil;
 	public ModManager modUtil;
 	public CommandManager commandUtil;
-	public UIClick ui;
+	public ClickUI ui;
 	public CSGOUI CSGO;
 	public FontManager fontManger;
 	
@@ -32,7 +33,7 @@ public class Sapphire {
 		System.err.println("FileUtil Loging ......");
 		commandUtil = new CommandManager();
 		System.err.println("ComdUtil Loging .....");
-		ui = new UIClick();
+		ui = new ClickUI();
 		CSGO = new CSGOUI();
 		System.err.println("Clickgui Loging ...");
 		try {

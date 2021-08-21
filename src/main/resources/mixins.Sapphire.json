@@ -19,6 +19,7 @@
     "client.MixinItemRenderer",
     "client.MixinRendererLivingEntity",
     "client.MixinRender",
-    "client.MixinGuiMainMenu"
+    "client.MixinGuiMainMenu",
+    "client.MixinShaderGroup"
   ]
 }

@@ -29,6 +29,14 @@ public class CFontRenderer extends CFont {
         this.setupBoldItalicIDs();
     }
 
+    public void drawOutlinedString(String text, float x, float y, int borderColor, int color) {
+        this.drawString(text, x - 0.5f, y, borderColor);
+        this.drawString(text, x + 0.5f, y, borderColor);
+        this.drawString(text, x, y - 0.5f, borderColor);
+        this.drawString(text, x, y + 0.5f, borderColor);
+        this.drawString(text, x, y, color);
+    }
+
     public float drawStringWithShadow(final String text, final double x, final double y, final int color) {
         final float shadowWidth = this.drawString(text, x + 0.66, y + 0.66, color, true);
         return Math.max(shadowWidth, this.drawString(text, x, y, color, false));
